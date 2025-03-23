@@ -3,11 +3,11 @@ Rust Shield is an implementation of a simple and fast firewall in Rust.
 ## How to use it
 The following are all the commands that you can execute once you start the firewall
 ```bash
-$ ip-address [--range] start-address[:end-address] [-p] [port] deny|allow
+$ ip-address [--range] start-address[:end-address] subnet-mask [-p] [port] deny|allow
 ```
 **Example:**
 ```bash
-$ ip-address 1.1.1.1 -p 80 deny
+$ ip-address 1.1.1.1 255.0.0.0 -p 80 deny
 ```
 Parameters specified in [] are optional. In this particular case, it is possible 
 to enter a single address or a pool of addresses by entering the parameter `--range`.
