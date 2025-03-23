@@ -1,9 +1,10 @@
 mod mods;
 
-use mods::{ip_rules, port_rules};
+use mods::{ip_rules, port_rules, io_rules_file};
 use std::io;
 use std::io::Write;
 fn main() {
+	io_rules_file::load_rules_from_file();
     println!("Configure firewall");
     loop{
     	
