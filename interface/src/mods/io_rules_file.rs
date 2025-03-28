@@ -19,6 +19,7 @@ pub fn load_rules_from_file() -> Vec<Rule> {
                 Ok(rules) => rules,
                 Err(err) => {
                     eprintln!("Error deserializing JSON: {}", err);
+            
                     Vec::new()
                 }
             }
@@ -28,7 +29,15 @@ pub fn load_rules_from_file() -> Vec<Rule> {
             if let Err(err) = File::create(file_path) {
                 eprintln!("Error creating file: {}", err);
             }
-            Vec::new()
+            vec![Rule::new(
+                super::rule::RuleKind::StandardRule,
+                None,
+                None,
+                None,
+                None,
+                super::rule::Permission::Allow,
+            )]
+            
         }
     }
 }
@@ -38,15 +47,15 @@ pub fn save_rules_to_file(rules: &Vec<Rule>) -> Result<i32, &'static str> {
     
     // Apri il file in modalità scrittura
     let file = OpenOptions::new().write(true).truncate(true).create(true).open(file_path)
-        .map_err(|_| "Errore nell'apertura del file")?;
+        .map_err(|_| "Error opening file")?;
 
     // Serializza il JSON
     let json = serde_json::to_string_pretty(rules)
-        .map_err(|_| "Errore nella serializzazione JSON")?;
+        .map_err(|_| "Error serializating JSON")?;
     
     // Scrivi nel file
     let mut file = file;
-    file.write_all(json.as_bytes()).map_err(|_| "Errore nella scrittura del file")?;
+    file.write_all(json.as_bytes()).map_err(|_| "Error writing file")?;
 
     Ok(0) // Successo
 }

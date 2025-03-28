@@ -56,7 +56,8 @@ impl Rule{
 #[derive(Serialize, Deserialize)]
 pub enum RuleKind{
     IpAddressRule,
-    PortRule
+    PortRule,
+    StandardRule
 }
 
 #[derive(Serialize, Deserialize)]
