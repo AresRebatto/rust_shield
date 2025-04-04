@@ -1,6 +1,7 @@
 mod mods;
 
-use mods::{ip_rules, port_rules, io_rules_file};
+use mods::standard_rule::standard_rule;
+use mods::{ip_rules, port_rules, io_rules_file, standard_rule};
 use std::io;
 use std::io::Write;
 fn main() {
@@ -32,6 +33,7 @@ fn execute_command(_command: &str)-> Result<i32, &str>{
 		"port" => Ok(0),
 		"sh" => Ok(0),
 		"rm-rule" => Ok(0),
+		"as-standard" => standard_rule::standard_rule(command_param),
 		_ => return Err("Unrecognized command")
 	}
 }

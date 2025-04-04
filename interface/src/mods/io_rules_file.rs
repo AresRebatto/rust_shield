@@ -36,6 +36,7 @@ pub fn load_rules_from_file() -> Vec<Rule> {
                 None,
                 None,
                 super::rule::Permission::Allow,
+                0
             )]
             
         }
@@ -58,4 +59,23 @@ pub fn save_rules_to_file(rules: &Vec<Rule>) -> Result<i32, &'static str> {
     file.write_all(json.as_bytes()).map_err(|_| "Error writing file")?;
 
     Ok(0) // Successo
+}
+
+pub fn remove_rule_from_file(rule_id: u32) -> Result<i32, &'static str> {
+    let mut rules = load_rules_from_file();
+    if rule_id == 0 {
+        return Err("You can't remove the standard rule");
+    }
+
+    if let Some(index) = rules.iter().position(|rule| rule.id == rule_id) {
+        rules.remove(index);
+        for i in index..rules.len() {
+            rules[i].id = i as u32;
+        }
+    } else {
+        return Err("Rule not found");
+    }
+
+    save_rules_to_file(&rules)?;
+    Ok(0)
 }

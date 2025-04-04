@@ -30,7 +30,8 @@ pub fn ip_rule(_command_params: Vec<&str>)-> Result<i32, &str>{
         None, //end_address
         None, //subnet_mask
         None, //port
-        Permission::Allow
+        Permission::Allow,
+        0, //last_id
     );
     
     if _command_params.len() < 4 {
@@ -115,6 +116,8 @@ pub fn ip_rule(_command_params: Vec<&str>)-> Result<i32, &str>{
     }
     
     let mut rules = load_rules_from_file();
+    rule.id = rules.len() as u32 + 1;
+
     rules.push(rule);
     match save_rules_to_file(&rules){
         Ok(_)=> return Ok(0),
